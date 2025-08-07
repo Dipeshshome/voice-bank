@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ভয়েস-ভিত্তিক গ্রাহক সেবা AI সহায়ক</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+
+        .voice-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 50px;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .voice-avatar.listening {
+            animation: listening 1s infinite;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            transform: scale(1.1);
+        }
+
+        .voice-avatar.speaking {
+            animation: speaking 0.8s infinite;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        }
+
+        @keyframes listening {
+            0%, 100% { transform: scale(1.1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.8; }
+        }
+
+        @keyframes speaking {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
+            75% { transform: scale(1.05); }
+        }
+
+        .status-display {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .status-display.listening {
+            background: linear-gradient(45deg, rgba(78, 205, 196, 0.3), rgba(68, 160, 141, 0.3));
+            border: 2px solid rgba(78, 205, 196, 0.5);
+        }
+
+        .status-display.speaking {
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.3), rgba(255, 142, 83, 0.3));
+            border: 2px solid rgba(255, 107, 107, 0.5);
+        }
+
+        .status-display.processing {
+            background: linear-gradient(45deg, rgba(255, 193, 7, 0.3), rgba(255, 152, 0, 0.3));
+            border: 2px solid rgba(255, 193, 7, 0.5);
+        }
+
+        .status-display.error {
+            background: linear-gradient(45deg, rgba(255, 82, 82, 0.3), rgba(255, 107, 107, 0.3));
+            border: 2px solid rgba(255, 82, 82, 0.5);
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .voice-btn {
+            padding: 18px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 150px;
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .start-btn.active {
+            background: linear-gradient(45deg, #ff4757, #c44569);
+            animation: recording 1s infinite;
+        }
+
+        .stop-btn {
+            background: linear-gradient(45deg, #6c5ce7, #74b9ff);
+            color: white;
+        }
+
+        .stop-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(116, 185, 255, 0.4);
+        }
+
+        @keyframes recording {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .quick-voice-commands {
+            margin-top: 30px;
+        }
+
+        .quick-voice-commands h3 {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+        }
+
+        .voice-command-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .voice-cmd-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            font-size: 14px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .voice-cmd-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .voice-cmd-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .tts-selector {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .tts-selector h4 {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .tts-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tts-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            font-size: 11px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tts-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tts-btn.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border-color: rgba(78, 205, 196, 0.5);
+        }
+
+        .volume-control {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .volume-slider {
+            width: 150px;
+            height: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .conversation-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .conversation-indicator.active {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .permission-notice {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <div class="conversation-indicator" id="conversationStatus">
+        🔴 কথোপকথন চলছে না
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>ভয়েস গ্রাহক সেবা</h1>
+            <p>শুধুমাত্র কথায় কথায় সেবা</p>
+        </div>
+
+        <div class="voice-avatar" id="voiceAvatar" onclick="startCall()">
+            🎙️
+        </div>
+
+        <div class="status-display" id="statusDisplay">
+            <p>কল শুরু করতে ফোন বাটনে ক্লিক করুন</p>
+        </div>
+
+        <div class="voice-controls">
+            <button class="voice-btn start-btn" id="startBtn" onclick="startCall()">
+                📞 কল শুরু করুন
+            </button>
+            <button class="voice-btn stop-btn hidden" id="endBtn" onclick="endCall()">
+                📞 কল শেষ করুন
+            </button>
+        </div>
+
+        <div id="permissionNotice" class="permission-notice hidden">
+            🎙️ মাইক্রোফোন অনুমতির জন্য অপেক্ষা করুন...
+        </div>
+
+        <div class="quick-voice-commands">
+            <h3>দ্রুত ভয়েস সেবা</h3>
+            <div class="voice-command-buttons">
+                <button class="voice-cmd-btn" onclick="handleVoiceCommand('balance')">
+                    💰 ব্যালেন্স জানুন
+                </button>
+                <button class="voice-cmd-btn" onclick="handleVoiceCommand('card')">
+                    💳 কার্ড সেবা
+                </button>
+                <button class="voice-cmd-btn" onclick="handleVoiceCommand('block')">
+                    🚫 কার্ড ব্লক
+                </button>
+                <button class="voice-cmd-btn" onclick="handleVoiceCommand('faq')">
+                    ❓ সাধারণ প্রশ্ন
+                </button>
+            </div>
+        </div>
+
+        <div class="tts-selector">
+            <h4>🔊 ভয়েস ইঞ্জিন:</h4>
+            <div class="tts-buttons">
+                <button class="tts-btn active" onclick="changeTTSEngine('google')">Google TTS</button>
+                <button class="tts-btn" onclick="changeTTSEngine('browser')">Browser TTS</button>
+            </div>
+        </div>
+
+        <div class="volume-control">
+            <span>🔊</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80" 
+                   oninput="updateVolume(this.value)">
+            <span id="volumeDisplay">80%</span>
+        </div>
+
+        <div class="footer">
+            <p>📞 কল-ভিত্তিক AI সহায়ক • ক্রমাগত কথোপকথন</p>
+            <p style="margin-top: 5px;">Space চেপে কল শুরু করুন • Escape চেপে কল শেষ করুন</p>
+        </div>
+    </div>
+
+    <script>
+        let isListening = false;
+        let callActive = false;
+        let recognition;
+        let synthesis = window.speechSynthesis;
+        let currentTTSEngine = 'google';
+        let currentVolume = 0.8;
+        let conversationTurn = 'user'; // 'user' or 'ai'
+        let silenceTimer;
+        let autoListenDelay = 2000; // 2 seconds delay before auto-listening
+        let microphonePermissionGranted = false;
+        let recognitionInitialized = false;
+
+        // Bengali responses database
+        const responses = {
+            balance: "আপনার ব্যালেন্স জানার জন্য আমি আপনার পরিচয় যাচাই করব। দয়া করে আপনার একাউন্ট নম্বরের শেষ চার ডিজিট বলুন।",
+            card: "কার্ড সংক্রান্ত সমস্যার জন্য আমি এখানে আছি। আপনার ডেবিট কার্ড নাকি ক্রেডিট কার্ড নিয়ে সমস্যা? বিস্তারিত বলুন।",
+            block: "জরুরি কার্ড ব্লকের জন্য আমি তৎক্ষণাত সাহায্য করব। নিরাপত্তার জন্য প্রথমে আপনার পরিচয় যাচাই করতে হবে।",
+            faq: "আমাদের ব্যাংকিং সেবা চব্বিশ ঘন্টা উপলব্ধ। অনলাইন ব্যাংকিং, এটিএম সেবা সব সময় চালু। গ্রাহক সেবা হটলাইন ষোলো দুই চার সাত।",
+            greeting: [
+                "নমস্কার! আমি আপনার রাত্রিকালীন ভয়েস সহায়ক। কীভাবে সাহায্য করতে পারি?",
+                "আসসালামু আলাইকুম! ভয়েসে কথা বলে আপনার সমস্যার সমাধান করব।",
+                "শুভ রাত্রি! আমি শুধুমাত্র কথায় কথায় সেবা দিয়ে থাকি। বলুন কী প্রয়োজন?"
+            ],
+            default: "আমি আপনার কথা বুঝতে পারছি। আপনি ব্যালেন্স, কার্ড সমস্যা, কার্ড ব্লক, নাকি অন্য কোনো সাহায্য চান? স্পষ্ট করে বলুন।"
+        };
+
+        // Initialize speech recognition only when needed
+        async function initializeSpeechRecognition() {
+            if (recognitionInitialized) {
+                return true;
+            }
+
+            if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+                updateStatus("দুঃখিত, আপনার ব্রাউজার ভয়েস রিকগনিশন সাপোর্ট করে না।", "error");
+                return false;
+            }
+
+            try {
+                // Show permission notice
+                showPermissionNotice(true);
+                
+                // Request microphone permission first
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                // Stop the stream immediately - we just needed permission
+                stream.getTracks().forEach(track => track.stop());
+                
+                microphonePermissionGranted = true;
+                showPermissionNotice(false);
+                
+                // Now initialize speech recognition
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = 'bn-BD';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onstart = function() {
+                    console.log('Speech recognition started');
+                    isListening = true;
+                    updateStatus("আপনার কথা শুনছি... স্পষ্ট করে বলুন", "listening");
+                    updateUI("listening");
+                    updateConversationStatus(true);
+                };
+
+                recognition.onresult = function(event) {
+                    console.log('Speech recognition result:', event.results[0][0].transcript);
+                    const transcript = event.results[0][0].transcript;
+                    const confidence = event.results[0][0].confidence;
+                    
+                    isListening = false;
+                    conversationTurn = 'ai';
+                    updateStatus("আপনার কথা বুঝে উত্তর দিচ্ছি...", "processing");
+                    processVoiceInput(transcript);
+                };
+
+                recognition.onerror = function(event) {
+                    console.log('Recognition error:', event.error);
+                    isListening = false;
+                    
+                    if (event.error === 'not-allowed') {
+                        updateStatus("মাইক্রোফোন অনুমতি প্রয়োজন। অনুগ্রহ করে অনুমতি দিন।", "error");
+                        microphonePermissionGranted = false;
+                        showPermissionNotice(false);
+                        endCall();
+                        return;
+                    }
+                    
+                    if (callActive) {
+                        updateStatus("দুঃখিত, আপনার কথা পরিষ্কার শুনতে পেলাম না। আবার বলুন।", "error");
+                        
+                        // Only speak error message if it's not a "no-speech" error
+                        if (event.error !== 'no-speech') {
+                            speakResponse("দুঃখিত, আপনার কথা পরিষ্কার শুনতে পেলাম না। আবার বলুন।");
+                        } else {
+                            // For no-speech errors, just restart listening
+                            setTimeout(() => {
+                                if (callActive && !isListening) {
+                                    startListening();
+                                }
+                            }, 2000);
+                        }
+                    }
+                };
+
+                recognition.onend = function() {
+                    isListening = false;
+                    if (callActive && conversationTurn === 'user') {
+                        // Automatically restart listening if call is active and it's user's turn
+                        setTimeout(() => {
+                            if (callActive && !isListening) {
+                                startListening();
+                            }
+                        }, 1000);
+                    }
+                };
+
+                recognitionInitialized = true;
+                return true;
+                
+            } catch (error) {
+                console.error('Microphone permission error:', error);
+                showPermissionNotice(false);
+                
+                if (error.name === 'NotAllowedError') {
+                    updateStatus("মাইক্রোফোন অনুমতি দেওয়া হয়নি। কল শুরু করতে মাইক্রোফোন অনুমতি প্রয়োজন।", "error");
+                } else {
+                    updateStatus("মাইক্রোফোন অ্যাক্সেস করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।", "error");
+                }
+                
+                microphonePermissionGranted = false;
+                return false;
+            }
+        }
+
+        function showPermissionNotice(show) {
+            const notice = document.getElementById('permissionNotice');
+            if (show) {
+                notice.classList.remove('hidden');
+            } else {
+                notice.classList.add('hidden');
+            }
+        }
+
+        async function startCall() {
+            // First initialize speech recognition and get microphone permission
+            const initialized = await initializeSpeechRecognition();
+            
+            if (!initialized || !microphonePermissionGranted) {
+                return; // Don't start call if permission not granted
+            }
+
+            callActive = true;
+            isListening = false;
+            conversationTurn = 'ai';
+            
+            // Update UI for call mode
+            document.getElementById('startBtn').classList.add('hidden');
+            document.getElementById('endBtn').classList.remove('hidden');
+            document.querySelector('.voice-avatar').onclick = toggleListening; // Change to toggle during call
+            
+            // Disable quick command buttons during call
+            document.querySelectorAll('.voice-cmd-btn').forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.5';
+            });
+            
+            updateStatus("কল শুরু হয়েছে... AI সহায়ক সংযোগ করা হচ্ছে", "processing");
+            updateConversationStatus(true);
+            
+            // Start with AI greeting
+            setTimeout(() => {
+                const greeting = responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
+                speakResponse(greeting + " এখন আপনি আমার সাথে সরাসরি কথা বলতে পারেন।", true);
+            }, 1500);
+        }
+
+        function endCall() {
+            callActive = false;
+            isListening = false;
+            conversationTurn = 'user';
+            
+            // Stop any ongoing recognition
+            if (recognition) {
+                recognition.stop();
+            }
+            
+            // Stop any ongoing speech
+            if (synthesis) {
+                synthesis.cancel();
+            }
+            
+            // Update UI back to normal mode
+            document.getElementById('startBtn').classList.remove('hidden');
+            document.getElementById('endBtn').classList.add('hidden');
+            document.querySelector('.voice-avatar').onclick = startCall; // Change back to start call
+            
+            // Re-enable quick command buttons
+            document.querySelectorAll('.voice-cmd-btn').forEach(btn => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            });
+            
+            updateStatus("কল শেষ হয়েছে। আবার কল করতে চাইলে কল শুরু করুন বাটনে ক্লিক করুন।", "ready");
+            updateConversationStatus(false);
+            resetUI();
+            
+            // Farewell message
+            speakResponse("আপনার সাথে কথা বলে ভালো লাগলো। আবার প্রয়োজনে যোগাযোগ করবেন। ধন্যবাদ।");
+        }
+
+        function toggleListening() {
+            // Manual control for testing - can be triggered by avatar click during call
+            if (!callActive) {
+                startCall();
+                return;
+            }
+            
+            if (callActive && !isListening && conversationTurn === 'user') {
+                startListening();
+            }
+        }
+
+        function startListening() {
+            if (recognition && callActive && !isListening && microphonePermissionGranted) {
+                try {
+                    isListening = true;
+                    conversationTurn = 'user';
+                    recognition.start();
+                    updateConversationStatus(true);
+                } catch (error) {
+                    console.log('Failed to start recognition:', error);
+                    isListening = false;
+                    setTimeout(() => {
+                        if (callActive && !isListening) {
+                            startListening();
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        function stopListening() {
+            if (recognition && isListening) {
+                try {
+                    recognition.stop();
+                    isListening = false;
+                } catch (error) {
+                    console.log('Error stopping recognition:', error);
+                    isListening = false;
+                }
+            }
+        }
+
+        function resetUI() {
+            const avatar = document.getElementById('voiceAvatar');
+            
+            // Reset avatar classes
+            avatar.className = 'voice-avatar';
+            
+            if (callActive) {
+                avatar.innerHTML = '📞';
+                
+                // Auto-start listening after AI finishes speaking
+                if (conversationTurn === 'user' && !isListening) {
+                    updateStatus("আপনার পালা... কথা বলুন", "ready");
+                    setTimeout(() => {
+                        if (callActive && !isListening && conversationTurn === 'user') {
+                            startListening();
+                        }
+                    }, autoListenDelay);
+                }
+            } else {
+                avatar.innerHTML = '🎙️';
+                updateStatus("কল শুরু করতে ফোন বাটনে ক্লিক করুন", "ready");
+            }
+        }
+
+        function updateUI(state) {
+            const avatar = document.getElementById('voiceAvatar');
+
+            // Reset all classes
+            avatar.className = 'voice-avatar';
+
+            switch(state) {
+                case 'listening':
+                    avatar.classList.add('listening');
+                    avatar.innerHTML = '🎧';
+                    if (callActive) {
+                        updateStatus("শুনছি... বলুন", "listening");
+                    }
+                    break;
+                case 'speaking':
+                    avatar.classList.add('speaking');
+                    avatar.innerHTML = '🔊';
+                    break;
+                case 'processing':
+                    avatar.innerHTML = '🤔';
+                    break;
+                default:
+                    if (callActive) {
+                        avatar.innerHTML = '📞';
+                    } else {
+                        avatar.innerHTML = '🎙️';
+                    }
+            }
+        }
+
+        function updateStatus(message, type) {
+            const statusDisplay = document.getElementById('statusDisplay');
+            statusDisplay.innerHTML = `<p>${message}</p>`;
+            
+            statusDisplay.className = 'status-display';
+            if (type) {
+                statusDisplay.classList.add(type);
+            }
+        }
+
+        function updateConversationStatus(active) {
+            const indicator = document.getElementById('conversationStatus');
+            if (callActive) {
+                if (isListening) {
+                    indicator.innerHTML = '🎙️ আপনার কথা শুনছি';
+                } else if (conversationTurn === 'ai') {
+                    indicator.innerHTML = '🤖 AI উত্তর দিচ্ছে';
+                } else {
+                    indicator.innerHTML = '📞 কল চলছে';
+                }
+                indicator.classList.add('active');
+            } else {
+                indicator.innerHTML = '🔴 কল বন্ধ';
+                indicator.classList.remove('active');
+            }
+        }
+
+        function processVoiceInput(input) {
+            const response = generateResponse(input);
+            speakResponse(response);
+        }
+
+        function generateResponse(input) {
+            const lowerInput = input.toLowerCase();
+            
+            if (lowerInput.includes('ব্যালেন্স') || lowerInput.includes('টাকা')) {
+                return responses.balance;
+            }
+            
+            if (lowerInput.includes('কার্ড')) {
+                return responses.card;
+            }
+            
+            if (lowerInput.includes('ব্লক') || lowerInput.includes('বন্ধ')) {
+                return responses.block;
+            }
+            
+            if (lowerInput.includes('সময়') || lowerInput.includes('তথ্য')) {
+                return responses.faq;
+            }
+            
+            if (lowerInput.includes('হ্যালো') || lowerInput.includes('নমস্কার')) {
+                return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
+            }
+            
+            return responses.default;
+        }
+
+        function handleVoiceCommand(command) {
+            // Disable quick commands during active call
+            if (callActive) {
+                speakResponse("কল চলাকালীন সময়ে আপনি সরাসরি কথা বলে সেবা নিতে পারেন।");
+                return;
+            }
+            
+            let response = '';
+            switch(command) {
+                case 'balance':
+                    response = responses.balance;
+                    break;
+                case 'card':
+                    response = responses.card;
+                    break;
+                case 'block':
+                    response = responses.block;
+                    break;
+                case 'faq':
+                    response = responses.faq;
+                    break;
+            }
+            
+            updateStatus("বোতাম থেকে সেবা নির্বাচিত হয়েছে", "processing");
+            speakResponse(response);
+        }
+
+        async function speakResponse(text, startCall = false) {
+            updateUI("speaking");
+            conversationTurn = 'ai';
+            updateStatus("🔊 বাংলায় উত্তর দিচ্ছি...", "speaking");
+            updateConversationStatus(false);
+            
+            try {
+                if (currentTTSEngine === 'google') {
+                    await speakWithGoogleTTS(text);
+                } else {
+                    speakWithBrowserTTS(text);
+                }
+            } catch (error) {
+                console.error('TTS Error:', error);
+                speakWithBrowserTTS(text);
+            }
+            
+            // After AI finishes speaking
+            setTimeout(() => {
+                if (callActive) {
+                    conversationTurn = 'user';
+                    resetUI(); // This will auto-start listening
+                } else {
+                    resetUI();
+                }
+                
+                // If this was the initial greeting, start listening
+                if (startCall && callActive) {
+                    setTimeout(() => {
+                        if (callActive) {
+                            startListening();
+                        }
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        async function speakWithGoogleTTS(text) {
+            try {
+                const encodedText = encodeURIComponent(text);
+                const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=bn&client=tw-ob&ttsspeed=0.8`;
+                
+                const audio = new Audio();
+                audio.volume = currentVolume;
+                
+                return new Promise((resolve, reject) => {
+                    audio.onloadeddata = () => {
+                        audio.play().then(resolve).catch(reject);
+                    };
+                    audio.onerror = () => {
+                        console.log('Google TTS failed, using browser TTS');
+                        speakWithBrowserTTS(text);
+                        resolve();
+                    };
+                    audio.src = audioUrl;
+                });
+            } catch (error) {
+                speakWithBrowserTTS(text);
+            }
+        }
+
+        function speakWithBrowserTTS(text) {
+            if (synthesis) {
+                synthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'bn-BD';
+                utterance.rate = 0.8;
+                utterance.pitch = 1.1;
+                utterance.volume = currentVolume;
+                
+                synthesis.speak(utterance);
+            }
+        }
+
+        function changeTTSEngine(engine) {
+            currentTTSEngine = engine;
+            
+            // Update active button
+            document.querySelectorAll('.tts-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Announce change
+            const engineName = engine === 'google' ? 'গুগল টিটিএস' : 'ব্রাউজার টিটিএস';
+            speakResponse(`ভয়েস ইঞ্জিন পরিবর্তন করা হয়েছে ${engineName} এ`);
+        }
+
+        function updateVolume(value) {
+            currentVolume = value / 100;
+            document.getElementById('volumeDisplay').textContent = value + '%';
+        }
+
+        // Initialize when page loads - but don't request microphone permission yet
+        document.addEventListener('DOMContentLoaded', function() {
+            // No auto-initialization of speech recognition
+            updateStatus("কল শুরু করতে প্রস্তুত", "ready");
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space' && !callActive) {
+                event.preventDefault();
+                startCall();
+            } else if (event.code === 'Space' && callActive && !isListening && conversationTurn === 'user') {
+                event.preventDefault();
+                startListening();
+            } else if (event.code === 'Escape' && callActive) {
+                endCall();
+            }
+        });
+
+        // Prevent accidental page leave during call
+        window.addEventListener('beforeunload', function(event) {
+            if (callActive) {
+                event.preventDefault();
+                event.returnValue = 'কল চলছে। পেজ ছেড়ে যেতে চান?';
+            }
+        });
+    </script>
+</body>
+</html>
