@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ভয়েস-ভিত্তিক গ্রাহক সেবা AI সহায়ক</title>
+    <title>MyPrime Assistant - Prime Bank Limited</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #dc2626 50%, #16a34a 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,62 +23,85 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
             padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 500px;
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            max-width: 550px;
             width: 90%;
             text-align: center;
         }
 
-        .header {
+        .bank-header {
             margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            color: #fff;
+        .bank-logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .header p {
-            color: rgba(255, 255, 255, 0.8);
+        .bank-tagline {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+
+        .assistant-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #4ade80;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .greeting-text {
             font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
         }
 
         .voice-avatar {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(45deg, #1e3a8a, #dc2626, #16a34a);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 30px;
-            font-size: 50px;
-            animation: pulse 2s infinite;
+            font-size: 55px;
+            animation: prime-pulse 2s infinite;
             transition: all 0.3s ease;
             cursor: pointer;
+            border: 3px solid rgba(255, 215, 0, 0.5);
         }
 
         .voice-avatar.listening {
             animation: listening 1s infinite;
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            background: linear-gradient(45deg, #16a34a, #22c55e);
             transform: scale(1.1);
+            border-color: #4ade80;
         }
 
         .voice-avatar.speaking {
             animation: speaking 0.8s infinite;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            background: linear-gradient(45deg, #dc2626, #ef4444);
+            border-color: #fbbf24;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        @keyframes prime-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.7); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 25px rgba(30, 58, 138, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(30, 58, 138, 0); }
         }
 
         @keyframes listening {
@@ -104,26 +127,27 @@
             justify-content: center;
             font-size: 18px;
             font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .status-display.listening {
-            background: linear-gradient(45deg, rgba(78, 205, 196, 0.3), rgba(68, 160, 141, 0.3));
-            border: 2px solid rgba(78, 205, 196, 0.5);
+            background: linear-gradient(45deg, rgba(34, 197, 94, 0.3), rgba(74, 222, 128, 0.3));
+            border: 2px solid rgba(34, 197, 94, 0.6);
         }
 
         .status-display.speaking {
-            background: linear-gradient(45deg, rgba(255, 107, 107, 0.3), rgba(255, 142, 83, 0.3));
-            border: 2px solid rgba(255, 107, 107, 0.5);
+            background: linear-gradient(45deg, rgba(220, 38, 38, 0.3), rgba(239, 68, 68, 0.3));
+            border: 2px solid rgba(220, 38, 38, 0.6);
         }
 
         .status-display.processing {
-            background: linear-gradient(45deg, rgba(255, 193, 7, 0.3), rgba(255, 152, 0, 0.3));
-            border: 2px solid rgba(255, 193, 7, 0.5);
+            background: linear-gradient(45deg, rgba(255, 193, 7, 0.3), rgba(251, 191, 36, 0.3));
+            border: 2px solid rgba(255, 193, 7, 0.6);
         }
 
         .status-display.error {
-            background: linear-gradient(45deg, rgba(255, 82, 82, 0.3), rgba(255, 107, 107, 0.3));
-            border: 2px solid rgba(255, 82, 82, 0.5);
+            background: linear-gradient(45deg, rgba(239, 68, 68, 0.3), rgba(248, 113, 113, 0.3));
+            border: 2px solid rgba(239, 68, 68, 0.6);
         }
 
         .voice-controls {
@@ -141,32 +165,35 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
-            min-width: 150px;
+            min-width: 160px;
+            border: 2px solid transparent;
         }
 
         .start-btn {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            background: linear-gradient(45deg, #16a34a, #22c55e);
             color: white;
+            border-color: rgba(34, 197, 94, 0.3);
         }
 
         .start-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
         }
 
         .start-btn.active {
-            background: linear-gradient(45deg, #ff4757, #c44569);
+            background: linear-gradient(45deg, #dc2626, #ef4444);
             animation: recording 1s infinite;
         }
 
         .stop-btn {
-            background: linear-gradient(45deg, #6c5ce7, #74b9ff);
+            background: linear-gradient(45deg, #1e3a8a, #3b82f6);
             color: white;
+            border-color: rgba(59, 130, 246, 0.3);
         }
 
         .stop-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(116, 185, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
 
         @keyframes recording {
@@ -174,41 +201,81 @@
             50% { opacity: 0.7; }
         }
 
-        .quick-voice-commands {
+        .demo-banking-services {
             margin-top: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .quick-voice-commands h3 {
-            margin-bottom: 15px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 16px;
+        .demo-banking-services h3 {
+            margin-bottom: 20px;
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: 600;
         }
 
-        .voice-command-buttons {
+        .banking-service-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
         }
 
-        .voice-cmd-btn {
+        .service-btn {
             background: rgba(255, 255, 255, 0.15);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 15px;
-            font-size: 14px;
+            padding: 15px 10px;
+            font-size: 13px;
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
         }
 
-        .voice-cmd-btn:hover {
+        .service-btn:hover {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
+            border-color: #4ade80;
         }
 
-        .voice-cmd-btn:disabled {
+        .service-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        .demo-qa-section {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .demo-qa-section h4 {
+            color: #fbbf24;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .qa-examples {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .qa-examples .question {
+            color: #4ade80;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .qa-examples .answer {
+            color: rgba(255, 255, 255, 0.9);
+            margin-left: 10px;
+            margin-bottom: 8px;
         }
 
         .tts-selector {
@@ -216,6 +283,7 @@
             padding: 15px;
             border-radius: 10px;
             margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .tts-selector h4 {
@@ -247,8 +315,8 @@
         }
 
         .tts-btn.active {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            border-color: rgba(78, 205, 196, 0.5);
+            background: linear-gradient(45deg, #16a34a, #22c55e);
+            border-color: rgba(34, 197, 94, 0.5);
         }
 
         .volume-control {
@@ -274,13 +342,13 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #4ecdc4;
+            background: #16a34a;
             cursor: pointer;
         }
 
         .footer {
             margin-top: 30px;
-            font-size: 12px;
+            font-size: 11px;
             color: rgba(255, 255, 255, 0.6);
             text-align: center;
         }
@@ -297,10 +365,11 @@
             padding: 10px 15px;
             border-radius: 20px;
             font-size: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .conversation-indicator.active {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            background: linear-gradient(45deg, #16a34a, #22c55e);
             animation: blink 2s infinite;
         }
 
@@ -326,9 +395,11 @@
     </div>
 
     <div class="container">
-        <div class="header">
-            <h1>ভয়েস গ্রাহক সেবা</h1>
-            <p>শুধুমাত্র কথায় কথায় সেবা</p>
+        <div class="bank-header">
+            <div class="bank-logo">🏦 Prime Bank Limited</div>
+            <div class="bank-tagline">আপনার বিশ্বস্ত ব্যাংকিং পার্টনার</div>
+            <div class="assistant-name">MyPrime Assistant</div>
+            <div class="greeting-text">ভয়েস-ভিত্তিক স্মার্ট ব্যাংকিং সেবা</div>
         </div>
 
         <div class="voice-avatar" id="voiceAvatar" onclick="startCall()">
@@ -336,12 +407,12 @@
         </div>
 
         <div class="status-display" id="statusDisplay">
-            <p>কল শুরু করতে ফোন বাটনে ক্লিক করুন</p>
+            <p>কল শুরু করতে মাইক্রোফোন বাটনে ক্লিক করুন</p>
         </div>
 
         <div class="voice-controls">
             <button class="voice-btn start-btn" id="startBtn" onclick="startCall()">
-                📞 কল শুরু করুন
+                📞 MyPrime এর সাথে কথা বলুন
             </button>
             <button class="voice-btn stop-btn hidden" id="endBtn" onclick="endCall()">
                 📞 কল শেষ করুন
@@ -352,21 +423,41 @@
             🎙️ মাইক্রোফোন অনুমতির জন্য অপেক্ষা করুন...
         </div>
 
-        <div class="quick-voice-commands">
-            <h3>দ্রুত ভয়েস সেবা</h3>
-            <div class="voice-command-buttons">
-                <button class="voice-cmd-btn" onclick="handleVoiceCommand('balance')">
+        <div class="demo-banking-services">
+            <h3>🏧 Prime Bank সেবাসমূহ (ডেমো)</h3>
+            <div class="banking-service-buttons">
+                <button class="service-btn" onclick="handleBankingService('balance')">
                     💰 ব্যালেন্স জানুন
                 </button>
-                <button class="voice-cmd-btn" onclick="handleVoiceCommand('card')">
-                    💳 কার্ড সেবা
+                <button class="service-btn" onclick="handleBankingService('transfer')">
+                    💸 ফান্ড ট্রান্সফার
                 </button>
-                <button class="voice-cmd-btn" onclick="handleVoiceCommand('block')">
-                    🚫 কার্ড ব্লক
+                <button class="service-btn" onclick="handleBankingService('card_block')">
+                    🚫 কার্ড ব্লক করুন
                 </button>
-                <button class="voice-cmd-btn" onclick="handleVoiceCommand('faq')">
-                    ❓ সাধারণ প্রশ্ন
+                <button class="service-btn" onclick="handleBankingService('statement')">
+                    📄 স্টেটমেন্ট দেখুন
                 </button>
+                <button class="service-btn" onclick="handleBankingService('branch')">
+                    📍 নিকটতম শাখা
+                </button>
+                <button class="service-btn" onclick="handleBankingService('support')">
+                    📞 কাস্টমার সাপোর্ট
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-qa-section">
+            <h4>💬 ডেমো প্রশ্ন ও উত্তর উদাহরণ:</h4>
+            <div class="qa-examples">
+                <div class="question">প্রশ্ন: "আমার একাউন্ট ব্যালেন্স কত?"</div>
+                <div class="answer">উত্তর: আপনার চেকিং একাউন্টে ৫০,০০০ টাকা এবং সেভিংস একাউন্টে ২,৫০,০০০ টাকা রয়েছে।</div>
+                
+                <div class="question">প্রশ্ন: "আমার কার্ড ব্লক করে দিন"</div>
+                <div class="answer">উত্তর: নিরাপত্তার জন্য আপনার ডেবিট কার্ড ব্লক করা হয়েছে। নতুন কার্ডের জন্য শাখায় যোগাযোগ করুন।</div>
+                
+                <div class="question">প্রশ্ন: "নিকটতম এটিএম কোথায়?"</div>
+                <div class="answer">উত্তর: আপনার অবস্থান থেকে সবচেয়ে কাছের Prime Bank ATM গুলশান-২ এ রয়েছে, ৫০০ মিটার দূরত্বে।</div>
             </div>
         </div>
 
@@ -386,15 +477,14 @@
         </div>
 
         <div class="footer">
-            <p>📞 কল-ভিত্তিক AI সহায়ক • ক্রমাগত কথোপকথন</p>
+            <p>🏦 Prime Bank Limited - MyPrime Assistant Demo</p>
             <p style="margin-top: 5px;">Space চেপে কল শুরু করুন • Escape চেপে কল শেষ করুন</p>
-            <p style="margin-top: 5px;">
-                Experience the future of banking with this AI Voice Assistant demo by: 
-                <a href="https://www.linkedin.com/in/dipesh-shome-575854113/" target="_blank" style="color: #0077b5; font-weight: 500;">
+            <p style="margin-top: 8px; font-size: 10px;">
+                Voice Banking Demo Created by: 
+                <a href="https://www.linkedin.com/in/dipesh-shome-575854113/" target="_blank" style="color: #ffd700; font-weight: 500;">
                   Dipesh Shome
                 </a>
-              </p>
-
+            </p>
         </div>
     </div>
 
@@ -405,27 +495,66 @@
         let synthesis = window.speechSynthesis;
         let currentTTSEngine = 'google';
         let currentVolume = 0.8;
-        let conversationTurn = 'user'; // 'user' or 'ai'
+        let conversationTurn = 'user';
         let silenceTimer;
-        let autoListenDelay = 2000; // 2 seconds delay before auto-listening
+        let autoListenDelay = 2000;
         let microphonePermissionGranted = false;
         let recognitionInitialized = false;
-
-        // Bengali responses database
-        const responses = {
-            balance: "আপনার ব্যালেন্স জানার জন্য আমি আপনার পরিচয় যাচাই করব। দয়া করে আপনার একাউন্ট নম্বরের শেষ চার ডিজিট বলুন।",
-            card: "কার্ড সংক্রান্ত সমস্যার জন্য আমি এখানে আছি। আপনার ডেবিট কার্ড নাকি ক্রেডিট কার্ড নিয়ে সমস্যা? বিস্তারিত বলুন।",
-            block: "জরুরি কার্ড ব্লকের জন্য আমি তৎক্ষণাত সাহায্য করব। নিরাপত্তার জন্য প্রথমে আপনার পরিচয় যাচাই করতে হবে।",
-            faq: "আমাদের ব্যাংকিং সেবা চব্বিশ ঘন্টা উপলব্ধ। অনলাইন ব্যাংকিং, এটিএম সেবা সব সময় চালু। গ্রাহক সেবা হটলাইন ষোলো দুই চার সাত।",
-            greeting: [
-                "নমস্কার! আমি আপনার রাত্রিকালীন ভয়েস সহায়ক। কীভাবে সাহায্য করতে পারি?",
-                "আসসালামু আলাইকুম! ভয়েসে কথা বলে আপনার সমস্যার সমাধান করব।",
-                "শুভ রাত্রি! আমি শুধুমাত্র কথায় কথায় সেবা দিয়ে থাকি। বলুন কী প্রয়োজন?"
-            ],
-            default: "আমি আপনার কথা বুঝতে পারছি। আপনি ব্যালেন্স, কার্ড সমস্যা, কার্ড ব্লক, নাকি অন্য কোনো সাহায্য চান? স্পষ্ট করে বলুন।"
+        let verificationStage = 'none'; // 'none', 'asking_digits', 'asking_father_name', 'verified'
+        let userQuery = '';
+        let verificationData = {
+            cardDigits: '',
+            fatherName: ''
         };
 
-        // Initialize speech recognition only when needed
+        // Prime Bank Bengali responses database
+        const primeBankResponses = {
+            balance: "আসসালামু আলাইকুম। আপনার একাউন্ট ব্যালেন্স জানার জন্য নিরাপত্তার খাতিরে আপনার একাউন্ট নম্বরের শেষ চার ডিজিট এবং আপনার মাতার নাম বলুন। অথবা আপনার PIN নম্বর দিন।",
+            
+            transfer: "Prime Bank ফান্ড ট্রান্সফার সেবায় স্বাগতম। আপনি কোথায় টাকা পাঠাতে চান? অন্য Prime Bank একাউন্টে, নাকি অন্য ব্যাংকে? এবং কত টাকা ট্রান্সফার করতে চান?",
+            
+            card_block: "জরুরি কার্ড ব্লকের জন্য আমি এখনই সাহায্য করছি। আপনার ডেবিট কার্ড নাকি ক্রেডিট কার্ড ব্লক করতে চান? নিরাপত্তার জন্য আপনার কার্ড নম্বরের শেষ চার ডিজিট বলুন।",
+            
+            statement: "Prime Bank স্টেটমেন্ট সেবায় আপনাকে স্বাগতম। আপনি গত ৩০ দিনের লেনদেন দেখতে চান নাকি নির্দিষ্ট সময়ের? আপনার ইমেইলে পাঠানো হবে নাকি SMS এ সংক্ষিপ্ত তথ্য চান?",
+            
+            branch: "Prime Bank এর নিকটতম শাখা এবং ATM খুঁজে দিচ্ছি। আপনি কোন এলাকায় আছেন? ঢাকার কোন এলাকায় শাখা বা ATM খুঁজছেন? আমাদের গুলশান, ধানমন্ডি, মতিঝিল সব জায়গায় শাখা আছে।",
+            
+            support: "Prime Bank কাস্টমার সাপোর্টে যোগাযোগ করাচ্ছি। আপনার সমস্যাটি কী? লোন সংক্রান্ত, কার্ড সমস্যা, নাকি একাউন্ট সংক্রান্ত? আমি এখানেই সাহায্য করতে পারি অথবা বিশেষজ্ঞ অফিসারের সাথে যোগাযোগ করিয়ে দিতে পারি।",
+            
+            greeting: [
+                "আসসালামু আলাইকুম! আমি MyPrime Assistant। Prime Bank এর ভয়েস ব্যাংকিং সেবায় আপনাকে স্বাগতম। আজ কীভাবে সাহায্য করতে পারি? আপনি ব্যালেন্স চেক, ফান্ড ট্রান্সফার, কার্ড সেবা, বা অন্য কোনো সাহায্য চান?",
+                "আসসালামু আলাইকুম! Prime Bank এর পক্ষ থেকে MyPrime Assistant বলছি। আপনার ব্যাংকিং প্রয়োজনে আমি এখানে আছি। আপনি কোন সেবা নিতে চান - ব্যালেন্স জানতে, টাকা ট্রান্সফার করতে, নাকি কার্ড সংক্রান্ত কোনো সাহায্য?",
+                "আসসালামু আলাইকুম! MyPrime Assistant এ আপনাকে স্বাগতম। Prime Bank এর সব সেবা এখন আপনার কণ্ঠস্বরেই। বলুন আপনার কী প্রয়োজন - একাউন্ট তথ্য, কার্ড সেবা, নাকি অন্য কিছু?"
+            ],
+            
+            verification: {
+                askDigits: "নিরাপত্তার জন্য প্রথমে আপনার পরিচয় যাচাই করতে হবে। আপনার ডেবিট কার্ড বা ক্রেডিট কার্ডের শেষ চার ডিজিট বলুন।",
+                askFatherName: "ধন্যবাদ। এখন আপনার পিতার নাম বলুন।",
+                verified: "যাচাইকরণ সম্পন্ন হয়েছে। এখন আমি আপনার সেবা করতে পারি।",
+                failed: "দুঃখিত, যাচাইকরণ সম্পন্ন হয়নি। নিরাপত্তার জন্য আবার চেষ্টা করুন অথবা নিকটতম Prime Bank শাখায় যোগাযোগ করুন।"
+            },
+            
+            loan_info: "Prime Bank বিভিন্ন ধরনের লোন দিয়ে থাকে। হোম লোন, কার লোন, পার্সোনাল লোন, ব্যবসায়িক লোন। সুদের হার ৮% থেকে ১৫% পর্যন্ত। কোন ধরনের লোন নিয়ে জানতে চান?",
+            
+            default: "দুঃখিত, আপনার কথা স্পষ্ট বুঝতে পারলাম না। আপনি বলতে পারেন - ব্যালেন্স চেক, ফান্ড ট্রান্সফার, কার্ড ব্লক, স্টেটমেন্ট, শাখার তথ্য, অথবা কাস্টমার সাপোর্ট। আবার বলুন কী সাহায্য লাগবে?"
+        };
+
+        // Demo account information for realistic responses
+        const demoAccountInfo = {
+            balance: {
+                checking: "৫০,০০০",
+                savings: "২,৫০,০০০"
+            },
+            lastTransactions: [
+                "বেফিক্র পেমেন্ট -৫০০ টাকা",
+                "ATM উত্তোলন -২,০০০ টাকা", 
+                "স্যালারি ক্রেডিট +৪৫,০০০ টাকা"
+            ],
+            nearestBranch: "গুলশান-২ শাখা, ৫০০ মিটার দূরত্বে",
+            customerService: "১৬২৪৭ অথবা ৮৮০-১৯১০-১৬২৪৭"
+        };
+
+        // Initialize speech recognition
         async function initializeSpeechRecognition() {
             if (recognitionInitialized) {
                 return true;
@@ -437,19 +566,14 @@
             }
 
             try {
-                // Show permission notice
                 showPermissionNotice(true);
                 
-                // Request microphone permission first
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                
-                // Stop the stream immediately - we just needed permission
                 stream.getTracks().forEach(track => track.stop());
                 
                 microphonePermissionGranted = true;
                 showPermissionNotice(false);
                 
-                // Now initialize speech recognition
                 recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 recognition.lang = 'bn-BD';
                 recognition.continuous = false;
@@ -467,7 +591,6 @@
                 recognition.onresult = function(event) {
                     console.log('Speech recognition result:', event.results[0][0].transcript);
                     const transcript = event.results[0][0].transcript;
-                    const confidence = event.results[0][0].confidence;
                     
                     isListening = false;
                     conversationTurn = 'ai';
@@ -490,11 +613,9 @@
                     if (callActive) {
                         updateStatus("দুঃখিত, আপনার কথা পরিষ্কার শুনতে পেলাম না। আবার বলুন।", "error");
                         
-                        // Only speak error message if it's not a "no-speech" error
                         if (event.error !== 'no-speech') {
                             speakResponse("দুঃখিত, আপনার কথা পরিষ্কার শুনতে পেলাম না। আবার বলুন।");
                         } else {
-                            // For no-speech errors, just restart listening
                             setTimeout(() => {
                                 if (callActive && !isListening) {
                                     startListening();
@@ -507,7 +628,6 @@
                 recognition.onend = function() {
                     isListening = false;
                     if (callActive && conversationTurn === 'user') {
-                        // Automatically restart listening if call is active and it's user's turn
                         setTimeout(() => {
                             if (callActive && !isListening) {
                                 startListening();
@@ -544,34 +664,30 @@
         }
 
         async function startCall() {
-            // First initialize speech recognition and get microphone permission
             const initialized = await initializeSpeechRecognition();
             
             if (!initialized || !microphonePermissionGranted) {
-                return; // Don't start call if permission not granted
+                return;
             }
 
             callActive = true;
             isListening = false;
             conversationTurn = 'ai';
             
-            // Update UI for call mode
             document.getElementById('startBtn').classList.add('hidden');
             document.getElementById('endBtn').classList.remove('hidden');
-            document.querySelector('.voice-avatar').onclick = toggleListening; // Change to toggle during call
+            document.querySelector('.voice-avatar').onclick = toggleListening;
             
-            // Disable quick command buttons during call
-            document.querySelectorAll('.voice-cmd-btn').forEach(btn => {
+            document.querySelectorAll('.service-btn').forEach(btn => {
                 btn.disabled = true;
                 btn.style.opacity = '0.5';
             });
             
-            updateStatus("কল শুরু হয়েছে... AI সহায়ক সংযোগ করা হচ্ছে", "processing");
+            updateStatus("Prime Bank এ স্বাগতম... MyPrime Assistant সংযোগ করা হচ্ছে", "processing");
             updateConversationStatus(true);
             
-            // Start with AI greeting
             setTimeout(() => {
-                const greeting = responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
+                const greeting = primeBankResponses.greeting[Math.floor(Math.random() * primeBankResponses.greeting.length)];
                 speakResponse(greeting + " এখন আপনি আমার সাথে সরাসরি কথা বলতে পারেন।", true);
             }, 1500);
         }
@@ -581,37 +697,39 @@
             isListening = false;
             conversationTurn = 'user';
             
-            // Stop any ongoing recognition
+            // Reset verification state
+            verificationStage = 'none';
+            userQuery = '';
+            verificationData = {
+                cardDigits: '',
+                fatherName: ''
+            };
+            
             if (recognition) {
                 recognition.stop();
             }
             
-            // Stop any ongoing speech
             if (synthesis) {
                 synthesis.cancel();
             }
             
-            // Update UI back to normal mode
             document.getElementById('startBtn').classList.remove('hidden');
             document.getElementById('endBtn').classList.add('hidden');
-            document.querySelector('.voice-avatar').onclick = startCall; // Change back to start call
+            document.querySelector('.voice-avatar').onclick = startCall;
             
-            // Re-enable quick command buttons
-            document.querySelectorAll('.voice-cmd-btn').forEach(btn => {
+            document.querySelectorAll('.service-btn').forEach(btn => {
                 btn.disabled = false;
                 btn.style.opacity = '1';
             });
             
-            updateStatus("কল শেষ হয়েছে। আবার কল করতে চাইলে কল শুরু করুন বাটনে ক্লিক করুন।", "ready");
+            updateStatus("কল শেষ হয়েছে। Prime Bank এর সেবা নিতে আবার কল করুন।", "ready");
             updateConversationStatus(false);
             resetUI();
             
-            // Farewell message
-            speakResponse("আপনার সাথে কথা বলে ভালো লাগলো। আবার প্রয়োজনে যোগাযোগ করবেন। ধন্যবাদ।");
+            speakResponse("Prime Bank এর সেবা নেওয়ার জন্য ধন্যবাদ। আসসালামু আলাইকুম।");
         }
 
         function toggleListening() {
-            // Manual control for testing - can be triggered by avatar click during call
             if (!callActive) {
                 startCall();
                 return;
@@ -656,13 +774,11 @@
         function resetUI() {
             const avatar = document.getElementById('voiceAvatar');
             
-            // Reset avatar classes
             avatar.className = 'voice-avatar';
             
             if (callActive) {
                 avatar.innerHTML = '📞';
                 
-                // Auto-start listening after AI finishes speaking
                 if (conversationTurn === 'user' && !isListening) {
                     updateStatus("আপনার পালা... কথা বলুন", "ready");
                     setTimeout(() => {
@@ -673,14 +789,13 @@
                 }
             } else {
                 avatar.innerHTML = '🎙️';
-                updateStatus("কল শুরু করতে ফোন বাটনে ক্লিক করুন", "ready");
+                updateStatus("MyPrime Assistant এর সাথে কথা বলতে ক্লিক করুন", "ready");
             }
         }
 
         function updateUI(state) {
             const avatar = document.getElementById('voiceAvatar');
 
-            // Reset all classes
             avatar.className = 'voice-avatar';
 
             switch(state) {
@@ -723,9 +838,9 @@
                 if (isListening) {
                     indicator.innerHTML = '🎙️ আপনার কথা শুনছি';
                 } else if (conversationTurn === 'ai') {
-                    indicator.innerHTML = '🤖 AI উত্তর দিচ্ছে';
+                    indicator.innerHTML = '🤖 MyPrime উত্তর দিচ্ছে';
                 } else {
-                    indicator.innerHTML = '📞 কল চলছে';
+                    indicator.innerHTML = '📞 Prime Bank কল চলছে';
                 }
                 indicator.classList.add('active');
             } else {
@@ -735,67 +850,167 @@
         }
 
         function processVoiceInput(input) {
-            const response = generateResponse(input);
+            console.log('Processing input:', input, 'Verification stage:', verificationStage);
+            
+            // Handle verification process
+            if (verificationStage === 'asking_digits') {
+                handleDigitsVerification(input);
+                return;
+            }
+            
+            if (verificationStage === 'asking_father_name') {
+                handleFatherNameVerification(input);
+                return;
+            }
+            
+            // Check if this is a banking query that needs verification
+            if (verificationStage === 'none' && requiresVerification(input)) {
+                userQuery = input;
+                startVerificationProcess();
+                return;
+            }
+            
+            // Process verified queries or general queries
+            const response = generatePrimeBankResponse(input);
             speakResponse(response);
         }
 
-        function generateResponse(input) {
+        function requiresVerification(input) {
             const lowerInput = input.toLowerCase();
+            const bankingKeywords = [
+                'ব্যালেন্স', 'টাকা', 'balance', 'কার্ড', 'ট্রান্সফার', 'transfer', 
+                'স্টেটমেন্ট', 'statement', 'লেনদেন', 'একাউন্ট', 'account', 'পাঠাতে', 
+                'উত্তোলন', 'জমা', 'ব্লক', 'পিন', 'pin'
+            ];
             
-            if (lowerInput.includes('ব্যালেন্স') || lowerInput.includes('টাকা')) {
-                return responses.balance;
-            }
-            
-            if (lowerInput.includes('কার্ড')) {
-                return responses.card;
-            }
-            
-            if (lowerInput.includes('ব্লক') || lowerInput.includes('বন্ধ')) {
-                return responses.block;
-            }
-            
-            if (lowerInput.includes('সময়') || lowerInput.includes('তথ্য')) {
-                return responses.faq;
-            }
-            
-            if (lowerInput.includes('হ্যালো') || lowerInput.includes('নমস্কার')) {
-                return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
-            }
-            
-            return responses.default;
+            return bankingKeywords.some(keyword => lowerInput.includes(keyword));
         }
 
-        function handleVoiceCommand(command) {
-            // Disable quick commands during active call
+        function startVerificationProcess() {
+            verificationStage = 'asking_digits';
+            speakResponse(primeBankResponses.verification.askDigits);
+        }
+
+        function handleDigitsVerification(input) {
+            // Extract digits from input
+            const digits = input.replace(/[^\d]/g, '');
+            
+            if (digits.length >= 4) {
+                verificationData.cardDigits = digits.slice(-4);
+                verificationStage = 'asking_father_name';
+                speakResponse(primeBankResponses.verification.askFatherName);
+            } else {
+                speakResponse("দুঃখিত, আমি চার ডিজিট পরিষ্কার শুনতে পেলাম না। আবার বলুন আপনার কার্ডের শেষ চার ডিজিট।");
+            }
+        }
+
+        function handleFatherNameVerification(input) {
+            if (input.trim().length > 2) {
+                verificationData.fatherName = input.trim();
+                verificationStage = 'verified';
+                
+                // Process the original query after verification
+                const verifiedResponse = primeBankResponses.verification.verified + " " + generatePrimeBankResponse(userQuery);
+                speakResponse(verifiedResponse);
+                
+                // Reset for next query (but keep user verified for this session)
+                userQuery = '';
+            } else {
+                speakResponse("দুঃখিত, আপনার পিতার নাম পরিষ্কার শুনতে পেলাম না। আবার বলুন।");
+            }
+        }
+
+        function generatePrimeBankResponse(input) {
+            const lowerInput = input.toLowerCase();
+            
+            // If user is not verified and asking banking query, redirect to verification
+            if (verificationStage === 'none' && requiresVerification(input)) {
+                userQuery = input;
+                startVerificationProcess();
+                return;
+            }
+            
+            // Balance inquiry responses (only after verification)
+            if (verificationStage === 'verified' && (lowerInput.includes('ব্যালেন্স') || lowerInput.includes('টাকা কত') || lowerInput.includes('balance'))) {
+                return `আপনার চেকিং একাউন্টে ${demoAccountInfo.balance.checking} টাকা এবং সেভিংস একাউন্টে ${demoAccountInfo.balance.savings} টাকা রয়েছে। সর্বশেষ লেনদেন: ${demoAccountInfo.lastTransactions[0]}। আর কিছু জানতে চান?`;
+            }
+            
+            // Card blocking responses (only after verification)
+            if (verificationStage === 'verified' && lowerInput.includes('কার্ড') && (lowerInput.includes('ব্লক') || lowerInput.includes('বন্ধ') || lowerInput.includes('হারিয়ে'))) {
+                return `নিরাপত্তার জন্য আপনার ডেবিট কার্ড তৎক্ষণাৎ ব্লক করা হয়েছে। নতুন কার্ডের জন্য আগামীকাল যেকোনো Prime Bank শাখায় যোগাযোগ করুন। রেফারেন্স নম্বর: PB${Math.floor(Math.random() * 100000)}। আর কোনো সাহায্য লাগবে?`;
+            }
+            
+            // Fund transfer responses (only after verification)
+            if (verificationStage === 'verified' && (lowerInput.includes('ট্রান্সফার') || lowerInput.includes('পাঠাতে') || lowerInput.includes('পাঠান') || lowerInput.includes('transfer'))) {
+                return primeBankResponses.transfer + " এছাড়াও bKash, Nagad এ সরাসরি পাঠাতে পারবেন Prime Bank অ্যাপ দিয়ে।";
+            }
+            
+            // Statement responses (only after verification)
+            if (verificationStage === 'verified' && (lowerInput.includes('স্টেটমেন্ট') || lowerInput.includes('লেনদেন') || lowerInput.includes('statement'))) {
+                return `আপনার সর্বশেষ ৩টি লেনদেন: ১) ${demoAccountInfo.lastTransactions[0]}, ২) ${demoAccountInfo.lastTransactions[1]}, ৩) ${demoAccountInfo.lastTransactions[2]}। বিস্তারিত স্টেটমেন্ট আপনার ইমেইলে পাঠানো হবে।`;
+            }
+            
+            // General information (no verification needed)
+            // Branch/ATM location responses
+            if (lowerInput.includes('শাখা') || lowerInput.includes('atm') || lowerInput.includes('নিকটতম') || lowerInput.includes('branch')) {
+                return `আপনার ${demoAccountInfo.nearestBranch} অবস্থিত। শাখার সময়: সকাল ৯টা থেকে বিকাল ৪টা। ATM সেবা ২৪ ঘন্টা। প্রয়োজনে Google Maps এ Prime Bank লিখে সার্চ করুন।`;
+            }
+            
+            // Customer support responses
+            if (lowerInput.includes('সাপোর্ট') || lowerInput.includes('সাহায্য') || lowerInput.includes('support') || lowerInput.includes('হটলাইন')) {
+                return `Prime Bank কাস্টমার সাপোর্ট হটলাইন: ${demoAccountInfo.customerService}। ২ৄ ঘন্টা সেবা। অথবা Prime Bank অ্যাপে Live Chat করতে পারেন। আমি এখানেই আছি আরো সাহায্যের জন্য।`;
+            }
+            
+            // Loan information
+            if (lowerInput.includes('লোন') || lowerInput.includes('ঋণ') || lowerInput.includes('loan')) {
+                return primeBankResponses.loan_info + " এখনই অ্যাপ্লাই করতে চাইলে Prime Bank অ্যাপ ব্যবহার করুন।";
+            }
+            
+            // Greeting responses
+            if (lowerInput.includes('হ্যালো') || lowerInput.includes('নমস্কার') || lowerInput.includes('আসসালামু')) {
+                return "আসসালামু আলাইকুম! Prime Bank এ আপনাকে স্বাগতম। MyPrime Assistant হিসেবে আমি আপনার সব ব্যাংকিং প্রয়োজনে সাহায্য করতে এখানে আছি। কী সেবা লাগবে?";
+            }
+            
+            // Default response
+            return primeBankResponses.default + " Prime Bank অ্যাপ ডাউনলোড করে আরো সুবিধা পেতে পারেন।";
+        }
+
+        function handleBankingService(service) {
             if (callActive) {
                 speakResponse("কল চলাকালীন সময়ে আপনি সরাসরি কথা বলে সেবা নিতে পারেন।");
                 return;
             }
             
             let response = '';
-            switch(command) {
+            switch(service) {
                 case 'balance':
-                    response = responses.balance;
+                    response = "ব্যালেন্স জানার জন্য প্রথমে আপনার পরিচয় যাচাই করতে হবে। " + primeBankResponses.verification.askDigits;
                     break;
-                case 'card':
-                    response = responses.card;
+                case 'transfer':
+                    response = "ফান্ড ট্রান্সফারের জন্য প্রথমে আপনার পরিচয় যাচাই করতে হবে। " + primeBankResponses.verification.askDigits;
                     break;
-                case 'block':
-                    response = responses.block;
+                case 'card_block':
+                    response = "কার্ড ব্লকের জন্য প্রথমে আপনার পরিচয় যাচাই করতে হবে। " + primeBankResponses.verification.askDigits;
                     break;
-                case 'faq':
-                    response = responses.faq;
+                case 'statement':
+                    response = "স্টেটমেন্টের জন্য প্রথমে আপনার পরিচয় যাচাই করতে হবে। " + primeBankResponses.verification.askDigits;
+                    break;
+                case 'branch':
+                    response = primeBankResponses.branch;
+                    break;
+                case 'support':
+                    response = primeBankResponses.support;
                     break;
             }
             
-            updateStatus("বোতাম থেকে সেবা নির্বাচিত হয়েছে", "processing");
+            updateStatus("Prime Bank সেবা নির্বাচিত হয়েছে", "processing");
             speakResponse(response);
         }
 
         async function speakResponse(text, startCall = false) {
             updateUI("speaking");
             conversationTurn = 'ai';
-            updateStatus("🔊 বাংলায় উত্তর দিচ্ছি...", "speaking");
+            updateStatus("🔊 MyPrime Assistant উত্তর দিচ্ছে...", "speaking");
             updateConversationStatus(false);
             
             try {
@@ -809,16 +1024,14 @@
                 speakWithBrowserTTS(text);
             }
             
-            // After AI finishes speaking
             setTimeout(() => {
                 if (callActive) {
                     conversationTurn = 'user';
-                    resetUI(); // This will auto-start listening
+                    resetUI();
                 } else {
                     resetUI();
                 }
                 
-                // If this was the initial greeting, start listening
                 if (startCall && callActive) {
                     setTimeout(() => {
                         if (callActive) {
@@ -870,11 +1083,9 @@
         function changeTTSEngine(engine) {
             currentTTSEngine = engine;
             
-            // Update active button
             document.querySelectorAll('.tts-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Announce change
             const engineName = engine === 'google' ? 'গুগল টিটিএস' : 'ব্রাউজার টিটিএস';
             speakResponse(`ভয়েস ইঞ্জিন পরিবর্তন করা হয়েছে ${engineName} এ`);
         }
@@ -884,13 +1095,10 @@
             document.getElementById('volumeDisplay').textContent = value + '%';
         }
 
-        // Initialize when page loads - but don't request microphone permission yet
         document.addEventListener('DOMContentLoaded', function() {
-            // No auto-initialization of speech recognition
-            updateStatus("কল শুরু করতে প্রস্তুত", "ready");
+            updateStatus("MyPrime Assistant এর সাথে কথা বলতে প্রস্তুত", "ready");
         });
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', function(event) {
             if (event.code === 'Space' && !callActive) {
                 event.preventDefault();
@@ -903,11 +1111,10 @@
             }
         });
 
-        // Prevent accidental page leave during call
         window.addEventListener('beforeunload', function(event) {
             if (callActive) {
                 event.preventDefault();
-                event.returnValue = 'কল চলছে। পেজ ছেড়ে যেতে চান?';
+                event.returnValue = 'Prime Bank কল চলছে। পেজ ছেড়ে যেতে চান?';
             }
         });
     </script>
