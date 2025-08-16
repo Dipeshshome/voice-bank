@@ -19,7 +19,7 @@
             align-items: center;
             justify-content: center;
             color: white;
-            overflow: hidden;
+            padding: 20px 0;
         }
 
         .container {
@@ -32,6 +32,7 @@
             max-width: 550px;
             width: 90%;
             text-align: center;
+            margin: 20px auto;
         }
 
         .bank-header {
@@ -358,7 +359,7 @@
         }
 
         .conversation-indicator {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             background: rgba(255, 255, 255, 0.2);
@@ -366,6 +367,7 @@
             border-radius: 20px;
             font-size: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 1000;
         }
 
         .conversation-indicator.active {
@@ -386,6 +388,38 @@
             margin: 20px 0;
             font-size: 14px;
             color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .voice-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .voice-btn {
+                min-width: 100%;
+                font-size: 16px;
+            }
+            
+            .banking-service-buttons {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .conversation-indicator {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
         }
     </style>
 </head>
@@ -958,7 +992,7 @@
             
             // Customer support responses
             if (lowerInput.includes('সাপোর্ট') || lowerInput.includes('সাহায্য') || lowerInput.includes('support') || lowerInput.includes('হটলাইন')) {
-                return `Prime Bank কাস্টমার সাপোর্ট হটলাইন: ${demoAccountInfo.customerService}। ২ৄ ঘন্টা সেবা। অথবা Prime Bank অ্যাপে Live Chat করতে পারেন। আমি এখানেই আছি আরো সাহায্যের জন্য।`;
+                return `Prime Bank কাস্টমার সাপোর্ট হটলাইন: ${demoAccountInfo.customerService}। ২৪ ঘন্টা সেবা। অথবা Prime Bank অ্যাপে Live Chat করতে পারেন। আমি এখানেই আছি আরো সাহায্যের জন্য।`;
             }
             
             // Loan information
