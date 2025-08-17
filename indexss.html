@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyPrime Assistant - Prime Bank Limited</title>
     <style>
         * {
@@ -390,85 +390,22 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Mobile-first responsive design */
+        /* Responsive design for mobile */
         @media (max-width: 768px) {
-            body {
-                padding: 10px 0;
-                background-attachment: fixed;
-            }
-            
             .container {
                 margin: 10px;
-                padding: 20px 15px;
-                width: calc(100% - 20px);
-                max-width: none;
-                border-radius: 20px;
-            }
-            
-            .bank-header {
-                margin-bottom: 20px;
-                padding: 15px;
-                border-radius: 12px;
-            }
-            
-            .bank-logo {
-                font-size: 24px;
-                margin-bottom: 6px;
-            }
-            
-            .bank-tagline {
-                font-size: 12px;
-                margin-bottom: 10px;
-            }
-            
-            .assistant-name {
-                font-size: 20px;
-            }
-            
-            .greeting-text {
-                font-size: 14px;
-            }
-            
-            .voice-avatar {
-                width: 100px;
-                height: 100px;
-                font-size: 45px;
-                margin: 0 auto 20px;
-                border-width: 2px;
-            }
-            
-            .status-display {
-                padding: 15px;
-                margin: 20px 0;
-                min-height: 60px;
-                font-size: 16px;
-                border-radius: 12px;
+                padding: 20px;
+                width: 95%;
             }
             
             .voice-controls {
                 flex-direction: column;
-                gap: 12px;
-                margin: 20px 0;
+                gap: 15px;
             }
             
             .voice-btn {
                 min-width: 100%;
                 font-size: 16px;
-                padding: 15px 20px;
-                border-radius: 20px;
-                touch-action: manipulation;
-                -webkit-tap-highlight-color: transparent;
-            }
-            
-            .demo-banking-services {
-                margin-top: 20px;
-                padding: 15px;
-                border-radius: 12px;
-            }
-            
-            .demo-banking-services h3 {
-                font-size: 16px;
-                margin-bottom: 15px;
             }
             
             .banking-service-buttons {
@@ -476,207 +413,12 @@
                 gap: 10px;
             }
             
-            .service-btn {
-                padding: 12px 15px;
-                font-size: 14px;
-                border-radius: 12px;
-                touch-action: manipulation;
-                -webkit-tap-highlight-color: transparent;
-            }
-            
-            .demo-qa-section {
-                margin-top: 20px;
-                padding: 12px;
-                border-radius: 10px;
-            }
-            
-            .demo-qa-section h4 {
-                font-size: 13px;
-                margin-bottom: 10px;
-            }
-            
-            .qa-examples {
-                font-size: 11px;
-                line-height: 1.4;
-            }
-            
-            .tts-selector {
-                padding: 12px;
-                margin: 15px 0;
-                border-radius: 8px;
-            }
-            
-            .tts-selector h4 {
-                font-size: 13px;
-                margin-bottom: 8px;
-            }
-            
-            .tts-buttons {
-                gap: 6px;
-                flex-direction: column;
-            }
-            
-            .tts-btn {
-                padding: 10px 15px;
-                font-size: 12px;
-                border-radius: 12px;
-                width: 100%;
-                touch-action: manipulation;
-                -webkit-tap-highlight-color: transparent;
-            }
-            
-            .volume-control {
-                margin: 15px 0;
-                gap: 10px;
-                flex-direction: column;
-            }
-            
-            .volume-slider {
-                width: 80%;
-                height: 8px;
-            }
-            
-            .volume-slider::-webkit-slider-thumb {
-                width: 24px;
-                height: 24px;
-            }
-            
             .conversation-indicator {
                 position: relative;
                 top: auto;
                 right: auto;
-                margin-bottom: 15px;
-                display: block;
-                text-align: center;
-                font-size: 11px;
-                padding: 8px 12px;
-                border-radius: 15px;
-            }
-            
-            .permission-notice {
-                padding: 12px;
-                margin: 15px 0;
-                font-size: 13px;
-                border-radius: 8px;
-            }
-            
-            .footer {
-                margin-top: 20px;
-                font-size: 10px;
-            }
-            
-            .footer p {
-                margin-top: 4px;
-            }
-        }
-
-        /* Small mobile devices */
-        @media (max-width: 480px) {
-            .container {
-                margin: 5px;
-                padding: 15px 10px;
-                width: calc(100% - 10px);
-            }
-            
-            .bank-logo {
-                font-size: 20px;
-            }
-            
-            .assistant-name {
-                font-size: 18px;
-            }
-            
-            .voice-avatar {
-                width: 80px;
-                height: 80px;
-                font-size: 35px;
-            }
-            
-            .status-display {
-                font-size: 14px;
-                padding: 12px;
-                min-height: 50px;
-            }
-            
-            .voice-btn {
-                font-size: 14px;
-                padding: 12px 15px;
-            }
-            
-            .service-btn {
-                font-size: 12px;
-                padding: 10px 12px;
-            }
-            
-            .demo-banking-services h3 {
-                font-size: 14px;
-            }
-        }
-
-        /* Landscape mobile */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .container {
-                margin: 5px auto;
-                max-width: 600px;
-            }
-            
-            .voice-controls {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .voice-btn {
-                min-width: 180px;
-                flex: none;
-            }
-            
-            .banking-service-buttons {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-            }
-            
-            .tts-buttons {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .tts-btn {
-                width: auto;
-                flex: 1;
-                max-width: 150px;
-            }
-        }
-
-        /* Touch interactions */
-        @media (hover: none) and (pointer: coarse) {
-            .voice-btn:hover,
-            .service-btn:hover,
-            .tts-btn:hover {
-                transform: none;
-                box-shadow: none;
-            }
-            
-            .voice-btn:active {
-                transform: scale(0.98);
-                transition: transform 0.1s ease;
-            }
-            
-            .service-btn:active {
-                transform: scale(0.95);
-                transition: transform 0.1s ease;
-            }
-            
-            .voice-avatar:active {
-                transform: scale(0.95);
-                transition: transform 0.1s ease;
-            }
-        }
-
-        /* Prevent zoom on form elements */
-        @media (max-width: 768px) {
-            input, select, textarea, button {
-                font-size: 16px;
-                -webkit-text-size-adjust: 100%;
+                margin-bottom: 20px;
+                display: inline-block;
             }
         }
     </style>
@@ -978,11 +720,10 @@
             updateStatus("Prime Bank এ স্বাগতম... MyPrime Assistant সংযোগ করা হচ্ছে", "processing");
             updateConversationStatus(true);
             
-            // Immediately start greeting without waiting
             setTimeout(() => {
                 const greeting = primeBankResponses.greeting[Math.floor(Math.random() * primeBankResponses.greeting.length)];
-                speakResponse(greeting, true);
-            }, 800);
+                speakResponse(greeting + " এখন আপনি আমার সাথে সরাসরি কথা বলতে পারেন।", true);
+            }, 1500);
         }
 
         function endCall() {
