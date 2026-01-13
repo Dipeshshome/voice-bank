@@ -45,6 +45,7 @@
             margin: 20px auto;
             overflow-x: hidden;
             word-wrap: break-word;
+            position: relative;
         }
 
         .bank-header {
@@ -397,7 +398,7 @@
         }
 
         .conversation-indicator {
-            position: fixed;
+            position: absolute;
             top: 20px;
             right: 20px;
             background: rgba(255, 255, 255, 0.2);
@@ -405,11 +406,12 @@
             border-radius: 20px;
             font-size: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            z-index: 1000;
-            max-width: calc(100vw - 40px);
+            z-index: 100;
+            max-width: calc(100% - 40px);
             word-wrap: break-word;
-            top: max(20px, env(safe-area-inset-top, 20px));
-            right: max(20px, env(safe-area-inset-right, 20px));
+            overflow-wrap: break-word;
+            white-space: normal;
+            text-align: center;
         }
 
         .conversation-indicator.active {
@@ -670,12 +672,15 @@
                 position: relative;
                 top: auto;
                 right: auto;
-                margin-bottom: 15px;
+                left: auto;
+                margin: 0 auto 15px auto;
                 display: block;
                 text-align: center;
                 font-size: clamp(10px, 2.8vw, 11px);
                 padding: 8px 12px;
                 border-radius: 15px;
+                max-width: 100%;
+                white-space: normal;
             }
             
             .permission-notice {
@@ -942,11 +947,10 @@
     </style>
 </head>
 <body>
-    <div class="conversation-indicator" id="conversationStatus">
-        🔴 কথোপকথন চলছে না
-    </div>
-
     <div class="container">
+        <div class="conversation-indicator" id="conversationStatus">
+            🔴 কথোপকথন চলছে না
+        </div>
         <div class="bank-header">
             <div class="bank-logo">🏦 Prime Bank Limited</div>
             <div class="bank-tagline">আপনার বিশ্বস্ত ব্যাংকিং পার্টনার</div>
