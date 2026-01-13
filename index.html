@@ -11,15 +11,25 @@
             box-sizing: border-box;
         }
 
+        html {
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3a8a 0%, #dc2626 50%, #16a34a 100%);
+            background-attachment: fixed;
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             padding: 20px 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
@@ -33,6 +43,8 @@
             width: 90%;
             text-align: center;
             margin: 20px auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
         }
 
         .bank-header {
@@ -129,6 +141,15 @@
             font-size: 18px;
             font-weight: 500;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .status-display p {
+            margin: 0;
+            word-break: break-word;
+            hyphens: auto;
+            max-width: 100%;
         }
 
         .status-display.listening {
@@ -221,6 +242,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
+            width: 100%;
         }
 
         .service-btn {
@@ -335,6 +357,7 @@
             background: rgba(255, 255, 255, 0.3);
             outline: none;
             -webkit-appearance: none;
+            appearance: none;
         }
 
         .volume-slider::-webkit-slider-thumb {
@@ -346,12 +369,27 @@
             background: #16a34a;
             cursor: pointer;
         }
+        
+        .volume-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #16a34a;
+            cursor: pointer;
+            border: none;
+        }
 
         .footer {
             margin-top: 30px;
             font-size: 11px;
             color: rgba(255, 255, 255, 0.6);
             text-align: center;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .footer a {
+            word-break: break-all;
         }
 
         .hidden {
@@ -368,6 +406,10 @@
             font-size: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             z-index: 1000;
+            max-width: calc(100vw - 40px);
+            word-wrap: break-word;
+            top: max(20px, env(safe-area-inset-top, 20px));
+            right: max(20px, env(safe-area-inset-right, 20px));
         }
 
         .conversation-indicator.active {
@@ -390,11 +432,80 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Mobile-first responsive design */
+        /* Enhanced Responsive Design - Mobile First Approach */
+
+        /* Large Desktop (1920px and above) */
+        @media (min-width: 1920px) {
+            .container {
+                max-width: 650px;
+                padding: 50px;
+            }
+            
+            .voice-avatar {
+                width: 150px;
+                height: 150px;
+                font-size: 65px;
+            }
+        }
+
+        /* Desktop (1024px - 1919px) */
+        @media (max-width: 1919px) and (min-width: 1024px) {
+            .container {
+                max-width: 600px;
+                padding: 45px;
+            }
+        }
+
+        /* Tablet (768px - 1023px) */
+        @media (max-width: 1023px) and (min-width: 769px) {
+            .container {
+                max-width: 600px;
+                padding: 30px 25px;
+                margin: 15px auto;
+            }
+            
+            .bank-logo {
+                font-size: 28px;
+            }
+            
+            .assistant-name {
+                font-size: 22px;
+            }
+            
+            .voice-avatar {
+                width: 115px;
+                height: 115px;
+                font-size: 50px;
+            }
+            
+            .status-display {
+                padding: 20px;
+                font-size: 17px;
+            }
+            
+            .voice-btn {
+                min-width: 140px;
+                font-size: 17px;
+            }
+            
+            .banking-service-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .service-btn {
+                font-size: 13px;
+                padding: 14px 12px;
+            }
+        }
+
+        /* Mobile (481px - 768px) */
         @media (max-width: 768px) {
             body {
                 padding: 10px 0;
                 background-attachment: fixed;
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
             }
             
             .container {
@@ -403,6 +514,8 @@
                 width: calc(100% - 20px);
                 max-width: none;
                 border-radius: 20px;
+                margin-left: max(10px, env(safe-area-inset-left));
+                margin-right: max(10px, env(safe-area-inset-right));
             }
             
             .bank-header {
@@ -412,27 +525,27 @@
             }
             
             .bank-logo {
-                font-size: 24px;
+                font-size: clamp(20px, 5vw, 24px);
                 margin-bottom: 6px;
             }
             
             .bank-tagline {
-                font-size: 12px;
+                font-size: clamp(11px, 3vw, 12px);
                 margin-bottom: 10px;
             }
             
             .assistant-name {
-                font-size: 20px;
+                font-size: clamp(18px, 4.5vw, 20px);
             }
             
             .greeting-text {
-                font-size: 14px;
+                font-size: clamp(13px, 3.5vw, 14px);
             }
             
             .voice-avatar {
-                width: 100px;
-                height: 100px;
-                font-size: 45px;
+                width: clamp(90px, 22vw, 100px);
+                height: clamp(90px, 22vw, 100px);
+                font-size: clamp(40px, 10vw, 45px);
                 margin: 0 auto 20px;
                 border-width: 2px;
             }
@@ -441,8 +554,15 @@
                 padding: 15px;
                 margin: 20px 0;
                 min-height: 60px;
-                font-size: 16px;
+                font-size: clamp(15px, 4vw, 16px);
                 border-radius: 12px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            
+            .status-display p {
+                word-break: break-word;
+                hyphens: auto;
             }
             
             .voice-controls {
@@ -453,11 +573,12 @@
             
             .voice-btn {
                 min-width: 100%;
-                font-size: 16px;
+                font-size: clamp(15px, 4vw, 16px);
                 padding: 15px 20px;
                 border-radius: 20px;
                 touch-action: manipulation;
                 -webkit-tap-highlight-color: transparent;
+                min-height: 48px; /* Better touch target */
             }
             
             .demo-banking-services {
@@ -467,7 +588,7 @@
             }
             
             .demo-banking-services h3 {
-                font-size: 16px;
+                font-size: clamp(15px, 4vw, 16px);
                 margin-bottom: 15px;
             }
             
@@ -478,10 +599,11 @@
             
             .service-btn {
                 padding: 12px 15px;
-                font-size: 14px;
+                font-size: clamp(13px, 3.5vw, 14px);
                 border-radius: 12px;
                 touch-action: manipulation;
                 -webkit-tap-highlight-color: transparent;
+                min-height: 44px; /* Better touch target */
             }
             
             .demo-qa-section {
@@ -491,13 +613,14 @@
             }
             
             .demo-qa-section h4 {
-                font-size: 13px;
+                font-size: clamp(12px, 3.2vw, 13px);
                 margin-bottom: 10px;
             }
             
             .qa-examples {
-                font-size: 11px;
+                font-size: clamp(10px, 2.8vw, 11px);
                 line-height: 1.4;
+                word-wrap: break-word;
             }
             
             .tts-selector {
@@ -507,7 +630,7 @@
             }
             
             .tts-selector h4 {
-                font-size: 13px;
+                font-size: clamp(12px, 3.2vw, 13px);
                 margin-bottom: 8px;
             }
             
@@ -518,11 +641,12 @@
             
             .tts-btn {
                 padding: 10px 15px;
-                font-size: 12px;
+                font-size: clamp(11px, 3vw, 12px);
                 border-radius: 12px;
                 width: 100%;
                 touch-action: manipulation;
                 -webkit-tap-highlight-color: transparent;
+                min-height: 40px; /* Better touch target */
             }
             
             .volume-control {
@@ -534,6 +658,7 @@
             .volume-slider {
                 width: 80%;
                 height: 8px;
+                min-width: 200px;
             }
             
             .volume-slider::-webkit-slider-thumb {
@@ -548,7 +673,7 @@
                 margin-bottom: 15px;
                 display: block;
                 text-align: center;
-                font-size: 11px;
+                font-size: clamp(10px, 2.8vw, 11px);
                 padding: 8px 12px;
                 border-radius: 15px;
             }
@@ -556,26 +681,38 @@
             .permission-notice {
                 padding: 12px;
                 margin: 15px 0;
-                font-size: 13px;
+                font-size: clamp(12px, 3.2vw, 13px);
                 border-radius: 8px;
+                word-wrap: break-word;
             }
             
             .footer {
                 margin-top: 20px;
-                font-size: 10px;
+                font-size: clamp(9px, 2.5vw, 10px);
             }
             
             .footer p {
                 margin-top: 4px;
+                word-wrap: break-word;
             }
         }
 
-        /* Small mobile devices */
+        /* Small Mobile (320px - 480px) */
         @media (max-width: 480px) {
+            body {
+                padding: 5px 0;
+            }
+            
             .container {
                 margin: 5px;
                 padding: 15px 10px;
                 width: calc(100% - 10px);
+                margin-left: max(5px, env(safe-area-inset-left));
+                margin-right: max(5px, env(safe-area-inset-right));
+            }
+            
+            .bank-header {
+                padding: 12px;
             }
             
             .bank-logo {
@@ -590,12 +727,14 @@
                 width: 80px;
                 height: 80px;
                 font-size: 35px;
+                margin-bottom: 15px;
             }
             
             .status-display {
                 font-size: 14px;
                 padding: 12px;
                 min-height: 50px;
+                margin: 15px 0;
             }
             
             .voice-btn {
@@ -611,18 +750,72 @@
             .demo-banking-services h3 {
                 font-size: 14px;
             }
+            
+            .volume-slider {
+                width: 70%;
+                min-width: 150px;
+            }
         }
 
-        /* Landscape mobile */
+        /* Extra Small Mobile (max 360px) */
+        @media (max-width: 360px) {
+            .container {
+                padding: 12px 8px;
+            }
+            
+            .bank-logo {
+                font-size: 18px;
+            }
+            
+            .assistant-name {
+                font-size: 16px;
+            }
+            
+            .voice-avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 30px;
+            }
+            
+            .status-display {
+                font-size: 13px;
+                padding: 10px;
+            }
+            
+            .voice-btn {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            
+            .service-btn {
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+        }
+
+        /* Landscape Mobile */
         @media (max-width: 768px) and (orientation: landscape) {
+            body {
+                padding: 5px 0;
+            }
+            
             .container {
                 margin: 5px auto;
                 max-width: 600px;
+                padding: 15px 20px;
+            }
+            
+            .voice-avatar {
+                width: 90px;
+                height: 90px;
+                font-size: 40px;
+                margin-bottom: 15px;
             }
             
             .voice-controls {
                 flex-direction: row;
                 justify-content: center;
+                gap: 15px;
             }
             
             .voice-btn {
@@ -638,12 +831,41 @@
             .tts-buttons {
                 flex-direction: row;
                 justify-content: center;
+                gap: 10px;
             }
             
             .tts-btn {
                 width: auto;
                 flex: 1;
                 max-width: 150px;
+            }
+            
+            .volume-control {
+                flex-direction: row;
+                gap: 15px;
+            }
+            
+            .volume-slider {
+                width: 200px;
+            }
+        }
+
+        /* Landscape Small Mobile */
+        @media (max-width: 568px) and (orientation: landscape) {
+            .container {
+                padding: 12px 15px;
+            }
+            
+            .voice-avatar {
+                width: 75px;
+                height: 75px;
+                font-size: 32px;
+            }
+            
+            .voice-btn {
+                min-width: 150px;
+                font-size: 13px;
+                padding: 10px 15px;
             }
         }
 
@@ -677,6 +899,44 @@
             input, select, textarea, button {
                 font-size: 16px;
                 -webkit-text-size-adjust: 100%;
+            }
+        }
+
+        /* High DPI / Retina displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .voice-avatar {
+                border-width: 2px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .container {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            
+            .voice-controls,
+            .demo-banking-services,
+            .tts-selector,
+            .volume-control {
+                display: none;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
